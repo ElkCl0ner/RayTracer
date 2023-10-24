@@ -16,7 +16,7 @@ public:
 	Scene(int width, int height, Camera& camera);
 	void addCamera(Camera& camera);
 	bool setActiveCamera(int i);
-	void addSphere(Sphere& sphere);
+	void addSphere(const Sphere& sphere);
 	void addDirectionalLight(DirectionalLight& light);
 	Rays generateEyeRays();
 	void intersect(Rays& eye_rays, double* hit_distances, Vector3* hit_normals, Sphere** hit_sphere);

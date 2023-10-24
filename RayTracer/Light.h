@@ -4,5 +4,5 @@ class Light
 {
 public:
 	Vector3 color;
-	Light(Vector3& c);
+	Light(const Vector3& c);
 };
