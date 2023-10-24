@@ -65,6 +65,8 @@ int main()
     Scene scene = Scene(
         16, 9, camera
     );
+    DirectionalLight light = DirectionalLight(Vector3(.9, .9, .9), Vector3(0., -1., 0.));
+    scene.addDirectionalLight(light);
     Rays eye_rays = scene.generateEyeRays();
     for (int i = 0; i < eye_rays.length; i++) {
         printf("(%f, %f, %f) (%f, %f, %f)\n",
@@ -73,16 +75,17 @@ int main()
         );
     }
 
-    double* hit_distances = (double*)malloc(eye_rays.length * sizeof(double));
+    double* hit_distances2 = (double*)malloc(eye_rays.length * sizeof(double));
     Vector3* hit_normals = (Vector3*)malloc(eye_rays.length * sizeof(Vector3));
     Sphere** hit_sphere = (Sphere**)malloc(eye_rays.length * sizeof(Vector3*));
-    if (!hit_distances || !hit_normals || !hit_sphere) return 0;
-    scene.intersect(eye_rays, hit_distances, hit_normals, hit_sphere);
+    if (!hit_distances2 || !hit_normals || !hit_sphere) return 0;
+    scene.intersect(eye_rays, hit_distances2, hit_normals, hit_sphere);
 
-    Vector3* L = scene.shade(hit_distances, hit_normals, hit_sphere, eye_rays.length);
+    Vector3* L = scene.shade(hit_distances2, hit_normals, hit_sphere, eye_rays.length);
     if (!L) return 0;
 
-    FILE* output_file = fopen("./output.txt", "w");
+    FILE* output_file;
+    fopen_s(&output_file, "./output.txt", "w");
 
     fprintf(output_file, "%d,%d\n", scene.width, scene.height);
     for (int i = 0; i < eye_rays.length; i++) {
