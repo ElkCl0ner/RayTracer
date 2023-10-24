@@ -112,11 +112,12 @@ Vector3* Scene::shade(double* hit_distances, Vector3* hit_normals, Sphere** hit_
 
 	for (DirectionalLight& directional_light : directional_lights) {
 		for (int i = 0; i < length; i++) {
-			L[i] = hit_sphere[i]->brdf / M_PI;
-			L[i].x *= directional_light.color.x;
-			L[i].y *= directional_light.color.y;
-			L[i].z *= directional_light.color.z;
-			L[i] = L[i] * std::max(0., hit_normals[i].dot(directional_light.direction));
+			Vector3 temp = hit_sphere[i]->brdf / M_PI;
+			temp.x *= directional_light.color.x;
+			temp.y *= directional_light.color.y;
+			temp.z *= directional_light.color.z;
+			temp = temp * std::max(0., hit_normals[i].dot(directional_light.direction));
+			L[i] = L[i] + temp;
 		}
 	}
 

@@ -1,9 +1,9 @@
-#include <iostream>
 #include "Vector3.h"
 #include "Rays.h"
 #include "Sphere.h"
 #include "Scene.h"
 #include "Camera.h"
+#include <iostream>
 
 int main()
 {
@@ -72,6 +72,24 @@ int main()
             eye_rays.directions[i].x, eye_rays.directions[i].y, eye_rays.directions[i].z
         );
     }
+
+    double* hit_distances = (double*)malloc(eye_rays.length * sizeof(double));
+    Vector3* hit_normals = (Vector3*)malloc(eye_rays.length * sizeof(Vector3));
+    Sphere** hit_sphere = (Sphere**)malloc(eye_rays.length * sizeof(Vector3*));
+    if (!hit_distances || !hit_normals || !hit_sphere) return 0;
+    scene.intersect(eye_rays, hit_distances, hit_normals, hit_sphere);
+
+    Vector3* L = scene.shade(hit_distances, hit_normals, hit_sphere, eye_rays.length);
+    if (!L) return 0;
+
+    FILE* output_file = fopen("./output.txt", "w");
+
+    fprintf(output_file, "%d,%d\n", scene.width, scene.height);
+    for (int i = 0; i < eye_rays.length; i++) {
+        fprintf(output_file, "%f,%f,%f\n", L[i].x, L[i].y, L[i].z);
+    }
+
+    fclose(output_file);
 
     return 0;
 }
