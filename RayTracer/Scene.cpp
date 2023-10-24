@@ -26,7 +26,7 @@ bool Scene::setActiveCamera(int i)
 	return true;
 }
 
-void Scene::addSphere(Sphere& sphere)
+void Scene::addSphere(const Sphere& sphere)
 {
 	spheres.push_back(sphere);
 }
@@ -111,12 +111,14 @@ Vector3* Scene::shade(double* hit_distances, Vector3* hit_normals, Sphere** hit_
 	}
 
 	for (DirectionalLight& directional_light : directional_lights) {
+		Vector3 direction_towards_light = directional_light.direction * -1;
 		for (int i = 0; i < length; i++) {
+			if (!hit_sphere[i]) continue;
 			Vector3 temp = hit_sphere[i]->brdf / M_PI;
 			temp.x *= directional_light.color.x;
 			temp.y *= directional_light.color.y;
 			temp.z *= directional_light.color.z;
-			temp = temp * std::max(0., hit_normals[i].dot(directional_light.direction));
+			temp = temp * std::max(0., hit_normals[i].dot(direction_towards_light));
 			L[i] = L[i] + temp;
 		}
 	}

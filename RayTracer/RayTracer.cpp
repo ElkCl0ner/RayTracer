@@ -65,21 +65,44 @@ int main()
     Scene scene = Scene(
         16, 9, camera
     );
-    DirectionalLight light = DirectionalLight(Vector3(.9, .9, .9), Vector3(0., -1., 0.));
+    Vector3 light_dir = Vector3(.6, -1., .4);
+    light_dir.normalize();
+    DirectionalLight light = DirectionalLight(Vector3(.9, .9, .9), light_dir);
     scene.addDirectionalLight(light);
+    scene.addSphere(Sphere(Vector3(0., 0., 4.), 2., Vector3(.9, .9, .9)));
     Rays eye_rays = scene.generateEyeRays();
-    for (int i = 0; i < eye_rays.length; i++) {
+    /*for (int i = 0; i < eye_rays.length; i++) {
         printf("(%f, %f, %f) (%f, %f, %f)\n",
             eye_rays.origins[i].x, eye_rays.origins[i].y, eye_rays.origins[i].z,
             eye_rays.directions[i].x, eye_rays.directions[i].y, eye_rays.directions[i].z
         );
-    }
+    }*/
 
     double* hit_distances2 = (double*)malloc(eye_rays.length * sizeof(double));
     Vector3* hit_normals = (Vector3*)malloc(eye_rays.length * sizeof(Vector3));
     Sphere** hit_sphere = (Sphere**)malloc(eye_rays.length * sizeof(Vector3*));
     if (!hit_distances2 || !hit_normals || !hit_sphere) return 0;
+    for (int i = 0; i < eye_rays.length; i++) {
+        hit_distances2[i] = -1;
+        hit_normals[i] = Vector3(0., 0., 0.);
+        hit_sphere[i] = nullptr;
+    }
     scene.intersect(eye_rays, hit_distances2, hit_normals, hit_sphere);
+
+    FILE* hit_distances_file;
+    fopen_s(&hit_distances_file, "./hit_distances.txt", "w");
+    for (int i = 0; i < eye_rays.length; i++) {
+        fprintf(hit_distances_file, "%f\n", hit_distances2[i]);
+    }
+    fclose(hit_distances_file);
+
+    FILE* hit_sphere_file;
+    fopen_s(&hit_sphere_file, "./hit_sphere.txt", "w");
+    for (int i = 0; i < eye_rays.length; i++) {
+        if (hit_sphere[i]) fprintf(hit_sphere_file, "0\n");
+        else fprintf(hit_sphere_file, "-1\n");
+    }
+    fclose(hit_sphere_file);
 
     Vector3* L = scene.shade(hit_distances2, hit_normals, hit_sphere, eye_rays.length);
     if (!L) return 0;
