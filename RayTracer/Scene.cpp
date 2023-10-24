@@ -31,7 +31,7 @@ void Scene::addSphere(Sphere& sphere)
 	spheres.push_back(sphere);
 }
 
-void Scene::addLight(Light& light)
+void Scene::addDirectionalLight(DirectionalLight& light)
 {
 	directional_lights.push_back(light);
 }

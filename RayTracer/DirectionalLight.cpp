@@ -1,5 +1,5 @@
 #include "DirectionalLight.h"
 
-DirectionalLight::DirectionalLight(Vector3& color, Vector3& dir) : Light(color), direction(dir)
+DirectionalLight::DirectionalLight(const Vector3& c, const Vector3& dir) : color(c), direction(dir)
 {
 }

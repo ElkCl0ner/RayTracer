@@ -5,5 +5,5 @@ class DirectionalLight :
 {
 public:
     Vector3 direction;
-    DirectionalLight(Vector3& color, Vector3& dir);
+    DirectionalLight(const Vector3& color, const Vector3& dir);
 };
