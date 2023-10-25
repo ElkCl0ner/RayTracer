@@ -1,7 +1,7 @@
 #include "Sphere.h"
 #include <cmath>
 
-Sphere::Sphere(const Vector3& c, double radius, const Vector3& b) : center(c), brdf(b)
+Sphere::Sphere(double radius, const Vector3& c, const Vector3& b) : center(c), brdf(b)
 {
 	this->radius = radius;
 }

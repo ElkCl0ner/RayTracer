@@ -4,12 +4,11 @@
 #include <cmath>
 #include "DirectionalLight.h"
 
-Scene::Scene(int width, int height, Camera& camera)
+Scene::Scene(int width, int height)
 {
 	this->width = width;
 	this->height = height;
-	cameras.push_back(camera);
-	active_camera = 0;
+	active_camera = -1;
 }
 
 void Scene::addCamera(Camera& camera)
@@ -126,7 +125,7 @@ Vector3* Scene::shade(double* hit_distances, Vector3* hit_normals, Sphere** hit_
 	return L;
 }
 
-Vector3* Scene::Render()
+Vector3* Scene::render()
 {
 	// Generate eye rays
 	Rays eye_rays = generateEyeRays();

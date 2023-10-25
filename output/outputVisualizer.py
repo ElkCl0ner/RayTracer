@@ -70,12 +70,14 @@ def main():
     # Plot the image
     plt.matshow(pixels)
 
-    if not no_show:
-        plt.show()
-
     # Save the image
     if output_filename is not None:
         plt.savefig(output_filename)
+
+    # Show the image
+    if not no_show:
+        plt.show()
+
 
 if __name__ == '__main__':
     main()

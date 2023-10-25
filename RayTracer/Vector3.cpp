@@ -8,6 +8,26 @@ Vector3::Vector3(double x, double y, double z)
 	this->z = z;
 }
 
+Vector3 Vector3::ZERO()
+{
+	return Vector3(0., 0., 0.);
+}
+
+Vector3 Vector3::X()
+{
+	return Vector3(1., 0., 0.);
+}
+
+Vector3 Vector3::Y()
+{
+	return Vector3(0., 1., 0.);
+}
+
+Vector3 Vector3::Z()
+{
+	return Vector3(0., 0., 1.);
+}
+
 Vector3 Vector3::operator+(Vector3& other_vector) {
 	return Vector3(x + other_vector.x, y + other_vector.y, z + other_vector.z);
 }
@@ -33,6 +53,12 @@ void Vector3::normalize()
 	x /= magnitude;
 	y /= magnitude;
 	z /= magnitude;
+}
+
+Vector3 Vector3::norm()
+{
+	double magnitude = sqrt(x * x + y * y + z * z);
+	return Vector3(x / magnitude, y / magnitude, z / magnitude);
 }
 
 double Vector3::dot(Vector3& other_vector3)
