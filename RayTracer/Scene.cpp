@@ -62,7 +62,7 @@ Rays Scene::generateEyeRays()
 	for (int y = 0; y < height; y++) {
 		for (int x = 0; x < width; x++) {
 			double x_ndc = -1. + (x + .5) * x_step;
-			double y_ndc = -1. + (y + .5) * y_step;
+			double y_ndc = 1. - (y + .5) * y_step;
 			x_ndc *= x_scale;
 			y_ndc *= y_scale;
 
@@ -124,4 +124,30 @@ Vector3* Scene::shade(double* hit_distances, Vector3* hit_normals, Sphere** hit_
 	}
 
 	return L;
+}
+
+Vector3* Scene::Render()
+{
+	// Generate eye rays
+	Rays eye_rays = generateEyeRays();
+
+	// Intersect eye rays
+	int length = eye_rays.length;
+	
+	double* hit_distances = (double*)malloc(length * sizeof(double));
+	Vector3* hit_normals = (Vector3*)malloc(length * sizeof(Vector3));
+	Sphere** hit_sphere = (Sphere**)malloc(length * sizeof(Vector3*));
+
+	if (!hit_distances || !hit_normals || !hit_sphere) return nullptr;
+
+	for (int i = 0; i < length; i++) {
+		hit_distances[i] = -1;
+		hit_normals[i] = Vector3(0., 0., 0.);
+		hit_sphere[i] = nullptr;
+	}
+
+	intersect(eye_rays, hit_distances, hit_normals, hit_sphere);
+
+	// Shade hit points
+	return shade(hit_distances, hit_normals, hit_sphere, length);
 }

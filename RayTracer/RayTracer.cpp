@@ -63,9 +63,9 @@ int main()
         60
     );
     Scene scene = Scene(
-        16, 9, camera
+        1024, 768, camera
     );
-    Vector3 light_dir = Vector3(.6, -1., .4);
+    Vector3 light_dir = Vector3(1., 0., 0.);
     light_dir.normalize();
     DirectionalLight light = DirectionalLight(Vector3(.9, .9, .9), light_dir);
     scene.addDirectionalLight(light);
@@ -108,7 +108,7 @@ int main()
     if (!L) return 0;
 
     FILE* output_file;
-    fopen_s(&output_file, "./output.txt", "w");
+    fopen_s(&output_file, "../output/out.txt", "w");
 
     fprintf(output_file, "%d,%d\n", scene.width, scene.height);
     for (int i = 0; i < eye_rays.length; i++) {

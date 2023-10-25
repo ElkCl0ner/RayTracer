@@ -21,4 +21,5 @@ public:
 	Rays generateEyeRays();
 	void intersect(Rays& eye_rays, double* hit_distances, Vector3* hit_normals, Sphere** hit_sphere);
 	Vector3* shade(double* hit_distances, Vector3* hit_normals, Sphere** hit_sphere, int length);
+	Vector3* Render();
 };
