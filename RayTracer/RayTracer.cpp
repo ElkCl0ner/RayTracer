@@ -41,15 +41,15 @@ int main()
     // Add lights
     DirectionalLight light_top_left = DirectionalLight(
         Vector3(2, 0, 0),
-        Vector3(1, 1, 0).norm()
+        Vector3(-1, -1, 0).norm()
     );
     DirectionalLight light_top_right = DirectionalLight(
         Vector3(0, 2, 0),
-        Vector3(-1, 1, 0).norm()
+        Vector3(1, -1, 0).norm()
     );
     DirectionalLight light_top = DirectionalLight(
         Vector3(2, 2, 2),
-        Vector3(0, 1, 0)
+        Vector3(0, -1, 0)
     );
     scene.addDirectionalLight(light_top_left);
     scene.addDirectionalLight(light_top_right);

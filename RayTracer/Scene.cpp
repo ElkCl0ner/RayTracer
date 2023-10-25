@@ -52,11 +52,12 @@ Rays Scene::generateEyeRays()
 	double x_step = 2. / width;
 	double y_step = 2. / height;
 
-	double y_scale = tan(cameras.begin().operator++(active_camera)->fov * M_PI / 180);
+	double y_scale = tan(cameras.begin().operator++(active_camera)->fov * M_PI / 360);
 	double x_scale = y_scale * width / height;
 
 	Vector3 direction_up = cameras.begin().operator++(active_camera)->up.copy();
 	Vector3 direction_right = cameras.begin().operator++(active_camera)->direction % direction_up;
+	direction_right.normalize();
 
 	for (int y = 0; y < height; y++) {
 		for (int x = 0; x < width; x++) {
