@@ -4,12 +4,11 @@
 #include <cmath>
 #include "DirectionalLight.h"
 
-Scene::Scene(int width, int height, Camera& camera)
+Scene::Scene(int width, int height)
 {
 	this->width = width;
 	this->height = height;
-	cameras.push_back(camera);
-	active_camera = 0;
+	active_camera = -1;
 }
 
 void Scene::addCamera(Camera& camera)
@@ -53,11 +52,12 @@ Rays Scene::generateEyeRays()
 	double x_step = 2. / width;
 	double y_step = 2. / height;
 
-	double y_scale = tan(cameras.begin().operator++(active_camera)->fov * M_PI / 180);
+	double y_scale = tan(cameras.begin().operator++(active_camera)->fov * M_PI / 360);
 	double x_scale = y_scale * width / height;
 
 	Vector3 direction_up = cameras.begin().operator++(active_camera)->up.copy();
-	Vector3 direction_right = cameras.begin().operator++(active_camera)->direction % direction_up;
+	Vector3 direction_right = direction_up % cameras.begin().operator++(active_camera)->direction;
+	direction_right.normalize();
 
 	for (int y = 0; y < height; y++) {
 		for (int x = 0; x < width; x++) {
@@ -123,10 +123,16 @@ Vector3* Scene::shade(double* hit_distances, Vector3* hit_normals, Sphere** hit_
 		}
 	}
 
+	for (int i = 0; i < length; i++) {
+		L[i].x = std::min(1., L[i].x);
+		L[i].y = std::min(1., L[i].y);
+		L[i].z = std::min(1., L[i].z);
+	}
+
 	return L;
 }
 
-Vector3* Scene::Render()
+Vector3* Scene::render()
 {
 	// Generate eye rays
 	Rays eye_rays = generateEyeRays();

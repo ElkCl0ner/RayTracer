@@ -9,6 +9,6 @@ public:
     Vector3 center;
     double radius;
     Vector3 brdf;
-    Sphere(const Vector3& center, double radius, const Vector3& brdf);
+    Sphere(double radius, const Vector3& center, const Vector3& brdf);
     double* intersect(Rays& rays) override;
 };

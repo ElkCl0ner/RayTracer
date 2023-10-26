@@ -46,6 +46,8 @@ optional arguments:
             no_show = True
             argv_index += 1
             continue
+
+        print('Invalid argument: ' + sys.argv[argv_index])
     
     return input_filename, output_filename, no_show
 
@@ -70,12 +72,14 @@ def main():
     # Plot the image
     plt.matshow(pixels)
 
-    if not no_show:
-        plt.show()
-
     # Save the image
     if output_filename is not None:
         plt.savefig(output_filename)
+
+    # Show the image
+    if not no_show:
+        plt.show()
+
 
 if __name__ == '__main__':
     main()
