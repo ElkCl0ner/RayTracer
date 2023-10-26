@@ -56,7 +56,7 @@ Rays Scene::generateEyeRays()
 	double x_scale = y_scale * width / height;
 
 	Vector3 direction_up = cameras.begin().operator++(active_camera)->up.copy();
-	Vector3 direction_right = cameras.begin().operator++(active_camera)->direction % direction_up;
+	Vector3 direction_right = direction_up % cameras.begin().operator++(active_camera)->direction;
 	direction_right.normalize();
 
 	for (int y = 0; y < height; y++) {
@@ -121,6 +121,12 @@ Vector3* Scene::shade(double* hit_distances, Vector3* hit_normals, Sphere** hit_
 			temp = temp * std::max(0., hit_normals[i].dot(direction_towards_light));
 			L[i] = L[i] + temp;
 		}
+	}
+
+	for (int i = 0; i < length; i++) {
+		L[i].x = std::min(1., L[i].x);
+		L[i].y = std::min(1., L[i].y);
+		L[i].z = std::min(1., L[i].z);
 	}
 
 	return L;

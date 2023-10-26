@@ -46,6 +46,8 @@ optional arguments:
             no_show = True
             argv_index += 1
             continue
+
+        print('Invalid argument: ' + sys.argv[argv_index])
     
     return input_filename, output_filename, no_show
 

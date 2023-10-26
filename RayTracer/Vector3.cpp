@@ -10,22 +10,22 @@ Vector3::Vector3(double x, double y, double z)
 
 Vector3 Vector3::ZERO()
 {
-	return Vector3(0., 0., 0.);
+	return Vector3(0, 0, 0);
 }
 
 Vector3 Vector3::X()
 {
-	return Vector3(1., 0., 0.);
+	return Vector3(1, 0, 0);
 }
 
 Vector3 Vector3::Y()
 {
-	return Vector3(0., 1., 0.);
+	return Vector3(0, 1, 0);
 }
 
 Vector3 Vector3::Z()
 {
-	return Vector3(0., 0., 1.);
+	return Vector3(0, 0, 1);
 }
 
 Vector3 Vector3::operator+(Vector3& other_vector) {
@@ -63,7 +63,7 @@ Vector3 Vector3::norm()
 
 double Vector3::dot(Vector3& other_vector3)
 {
-	return x * other_vector3.x + y + other_vector3.y + z * other_vector3.z;
+	return x * other_vector3.x + y * other_vector3.y + z * other_vector3.z;
 }
 
 Vector3 Vector3::operator%(Vector3& other_vector3)
